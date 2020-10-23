@@ -15,12 +15,4 @@
             }
         }
     },
-
-    insertCampaignMembers : function(component, event, helper) {
-        helper.insertCampaignMembersHelper(component,event);
-    },
-
-    closeModal : function(component,event,helper){
-        helper.closeModalHelper(component,event);
-	}
 })
