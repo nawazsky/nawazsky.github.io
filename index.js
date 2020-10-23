@@ -22,5 +22,5 @@
 
     closeModal : function(component,event,helper){
         helper.closeModalHelper(component,event);
-	},
+	}
 })
