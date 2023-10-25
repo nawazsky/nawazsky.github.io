@@ -1,4 +1,5 @@
-NBCU Prod chat
+Mozart Prod changes
+
 
 <style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
@@ -35,17 +36,17 @@ NBCU Prod chat
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://ott-nbcu.my.salesforce.com',
-			'https://ott-nbcu.my.salesforce-sites.com/',
+			'https://ott-at.my.salesforce.com',
+			'https://ott-at.my.salesforce-sites.com/',
 			gslbBaseURL,
-			'00D3i000000F2Ra',
-			'FAQ_Bot_2',
+			'00D1r000001Gegi',
+			'LWC_Bot_Snap_in',
 			{
-				baseLiveAgentContentURL: 'https://c.la4-c1-ia4.salesforceliveagent.com/content',
-				deploymentId: '5723i000000LjBv',
-				buttonId: '5733i000000LkdJ',
-				baseLiveAgentURL: 'https://d.la4-c1-ia4.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I3i000000CrhwEAC_18a7484b458',
+				baseLiveAgentContentURL: 'https://c.la1-c2-lo3.salesforceliveagent.com/content',
+				deploymentId: '5721r0000008fpt',
+				buttonId: '573G00000004vdg',
+				baseLiveAgentURL: 'https://d.la1-c2-lo3.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I8d000000GtMiEAK_189cf3f2762',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -53,7 +54,7 @@ NBCU Prod chat
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ott-nbcu.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ott-at.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
