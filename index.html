@@ -1,18 +1,12 @@
-Bot testing Mozart 04th July
-
-
+<html>
+<body>
 <style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
-		background-color: #0073c5;
-		font-family: "Salesforce Sans", sans-serif;
+		background-color: #005290;
+		font-family: "Arial", sans-serif;
 	}
 	.embeddedServiceHelpButton .helpButton .uiButton:focus {
-		outline: 1px solid #0073c5;
-	}
-	@font-face {
-		font-family: 'Salesforce Sans';
-		src: url('https://c1.sfdcstatic.com/etc/clientlibs/sfdc-aem-master/clientlibs_base/fonts/SalesforceSans-Regular.woff') format('woff'),
-		url('https://c1.sfdcstatic.com/etc/clientlibs/sfdc-aem-master/clientlibs_base/fonts/SalesforceSans-Regular.ttf') format('truetype');
+		outline: 1px solid #005290;
 	}
 </style>
 
@@ -39,24 +33,22 @@ Bot testing Mozart 04th July
 
 		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
 		embedded_svc.settings.entryFeature = 'LiveAgent';
-
-		embedded_svc.settings.extraPrechatFormDetails = [{"label":"Origin","value":"LiveAgent","transcriptFields":[],"displayToAgent":true,"name":"Origin"},{"label":"Brand","value":"skyx","entityMaps":[],"transcriptFields":[],"displayToAgent":true,"doKnowledgeSearch":false,"name":"Brand__c"},{"label":"Subject","value":"default","entityMaps":[],"transcriptFields":[],"displayToAgent":true,"doKnowledgeSearch":false,"name":"Subject"},{"label":"Territory","value":"at","entityMaps":[],"transcriptFields":[],"displayToAgent":true,"doKnowledgeSearch":false,"name":"Territory__c"},{"label":"Language Code","value":"de_AT","entityMaps":[],"transcriptFields":[],"displayToAgent":true,"doKnowledgeSearch":false,"name":"Language_Code__c"},{"label":"Customer Case Classification","value":"I need help","entityMaps":[],"transcriptFields":[],"displayToAgent":true,"doKnowledgeSearch":false,"name":"Customer_Case_Classification__c"},{"label":"Customer Case Service Type","value":"TV","entityMaps":[],"transcriptFields":[],"displayToAgent":true,"doKnowledgeSearch":false,"name":"Customer_Case_Service_Type__c"},{"label":"Last Article Viewed","value":null,"entityMaps":[],"transcriptFields":[],"displayToAgent":true,"doKnowledgeSearch":false,"name":"Last_Article_Viewed__c"},{"label":"Logged In","value":true,"entityMaps":[],"transcriptFields":[],"displayToAgent":true,"doKnowledgeSearch":false,"name":"Logged_In_Status__c"},{"label":"Case Type","value":"Feedback","entityMaps":[],"transcriptFields":[],"displayToAgent":true,"doKnowledgeSearch":false,"name":"Type"},{"label":"Marketing Cloud Visitor ID","value":null,"transcriptFields":["MarketingCloudVisitorID__c"],"displayToAgent":false,"name":"MarketingCloudVisitorID__c"},{"label":"Contact Id","name":"Id","value":"003KN0000028LAeYAM","transcriptFields":[],"displayToAgent":true},{"label":"Page URL","name":"pageURL","value":"https://skyx.sky.at/hilfe/","transcriptFields":[],"displayToAgent":false},{"label":"Customer Tracking ID","value":null,"transcriptFields":[],"displayToAgent":true,"name":"Customer_Tracking_ID__c"}];
-
-		embedded_svc.settings.extraPrechatInfo=[{"entityName":"Case","showOnCreate":true,"saveToTranscript":"CaseId","entityFieldMaps":[{"fieldName":"Origin","label":"Origin","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"ContactId","label":"Contact Id","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Brand__c","label":"Brand","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Subject","label":"Subject","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Territory__c","label":"Territory","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Customer_Case_Classification__c","label":"Customer Case Classification","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Customer_Case_Service_Type__c","label":"Customer Case Service Type","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Last_Article_Viewed__c","label":"Last Article Viewed","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Logged_In_Status__c","label":"Logged In","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Language_Code__c","label":"Language Code","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Type","label":"Case Type","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Customer_Tracking_ID__c","label":"Customer Tracking ID","doFind":false,"isExactMatch":false,"doCreate":true}]},{"entityName":"Contact","showOnCreate":true,"linkToEntityName":"Case","linkToEntityField":"ContactId","saveToTranscript":"ContactId","entityFieldMaps":[{"fieldName":"Id","label":"Contact Id","doFind":true,"isExactMatch":true,"doCreate":false}]}];
+		              embedded_svc.settings.extraPrechatFormDetails = [{"label":"Origin","value":"LiveAgent","transcriptFields":[],"displayToAgent":true,"name":"Origin"},{"label":"Subject","value":"Customer chat","transcriptFields":[],"displayToAgent":true,"name":"Subject"},{"label":"Case Type","value":"Question","transcriptFields":[],"displayToAgent":true,"name":"Type"},{"label":"Profile Id","value":"312000665","transcriptFields":[],"displayToAgent":true,"name":"Profile_ID__c"},{"label":"Contact Id","value":"93149472","transcriptFields":[],"displayToAgent":true,"name":"Contact_Id__c"}];
+             embedded_svc.settings.extraPrechatInfo = [{"entityName":"Case","showOnCreate":true,"saveToTranscript":"CaseId","entityFieldMaps":[{"fieldName":"Origin","label":"Origin","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Subject","label":"Subject","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Type","label":"Case Type","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Profile_ID__c","label":"Profile Id","doFind":false,"isExactMatch":false,"doCreate":true}]},{"entityName":"Contact","showOnCreate":true,"saveToTranscript":"ContactId","entityFieldMaps":[{"fieldName":"Contact_Id__c","label":"Contact Id","doFind":true,"isExactMatch":true,"doCreate":false}],"linkToEntityName":"Case","linkToEntityField":"ContactId"}];                    
 
 
 		embedded_svc.init(
-			'https://ott-at--nawaz.sandbox.my.salesforce.com',
-			'https://ott-at--nawaz.sandbox.my.salesforce-sites.com/',
+			'https://ppv--stage.sandbox.my.salesforce.com',
+			'https://ppv--stage.sandbox.my.salesforce-sites.com/',
 			gslbBaseURL,
-			'00DKN000000H01u',
-			'Snap_in',
+			'00D1l0000000oNd',
+			'PPV',
 			{
-				baseLiveAgentContentURL: 'https://c.la1-c1cs-am3.salesforceliveagent.com/content',
-				deploymentId: '5721r0000008fpt',
-				buttonId: '5738d000000Tn2N',
-				baseLiveAgentURL: 'https://d.la1-c1cs-am3.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1r000000TNi4EAG_164ad8a821c',
+				baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/content',
+				deploymentId: '5721t000000CooW',
+				buttonId: '5731t000000CpIt',
+				baseLiveAgentURL: 'https://d.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1t000000XaVJEA0_166afe7e949',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -64,7 +56,7 @@ Bot testing Mozart 04th July
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ott-at--nawaz.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ppv--stage.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
@@ -73,3 +65,5 @@ Bot testing Mozart 04th July
 		initESW('https://service.force.com');
 	}
 </script>
+</body>
+</html>
