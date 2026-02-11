@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Summer Stage MIAW  </title>
+</head>
+<body>
+
+	<h1> <center>Summer Stage MIAW </center></h1> 
+  
+	
+	<center>
+<img src="https://imageservice.disco.peacocktv.com/uuid/35569ad4-a9a9-3567-b70a-47b03fabd9ff/TITLE_ART_3_4/414/552?language=eng&amp;territory=US&amp;proposition=NBCUOTT&amp;version=136e3f82-c68a-3301-b648-7801705fb9e7" alt="The Wild MIAW" loading="eager" class="tilestyles__Image-sc-e42v4u-3 jVBkcG">	</center>
+<script type='text/javascript'>
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'fi'; // For example, enter 'en' or 'en-US'
+
+			window.addEventListener("onEmbeddedMessagingReady", () => {
+            
+	console.log( "Inside Prechat API!!" );
+	const fetchBrowserName = () => {
+
+		let browserInfo = navigator.userAgent;
+		let browserName;
+		if ( 
+			browserInfo.includes('Opera') || 
+			browserInfo.includes('Opr') 
+		) {
+		
+			browserName = 'Opera';
+			
+		} else if ( browserInfo.includes( 'Edg' ) ) {
+		
+			browserName = 'Edge';
+			
+		} else if (browserInfo.includes( 'Chrome' ) ) {
+		
+			browserName = 'Chrome';
+			
+		} else if ( browserInfo.includes( 'Safari' ) ) {
+		
+			browserName = 'Safari';
+			
+		} else if ( browserInfo.includes( 'Firefox' ) ) {
+		
+			browserName= 'Firefox';
+			
+		} else {
+		
+			browserName = 'unknown';
+			
+		}
+		return browserName;
+		
+	}
+
+	const browserName = fetchBrowserName();
+	console.log(
+		'Browser Name is',
+		browserName
+	);
+	const browserLanguage = navigator.language;
+	console.log(
+		'Browser Language is',
+		browserLanguage
+	);
+	const browserPlatform = navigator.platform;
+	console.log(
+		'Browser Platform is',
+		browserPlatform
+	);
+	embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields( { 
+		'Browser_Name' : browserName,  	
+		'Browser_Language' : browserLanguage,  	
+		'Browser_Platform' : browserPlatform,
+		'Case_Subject': 'CRM test subject from Help - billing issue from MIAW',
+		'Language_Code' : 'fi',
+		'Territory_Code' : 'fi',
+		'Case_Classification' : 'caseClassification value',
+		'Case_ServiceType' : 'TV',
+		'Case_Type' : 'Technical Problem',
+		'Contact_ID' : '',
+		'Last_Article_Viewed' : 'https://www.peacocktv.com/help/article/how-do-i-get-peacock',
+		'Logged_In_Status' : 'false',
+		'Customer_Tracking_ID' : '234729348204982',
+		'Page_URL' : 'https://www.peacocktv.com/help/article/how-do-i-get-peacock',
+		'MarketingCloud_Visitor_ID' : '234j3453lk2343',
+		'Get_In_Touch' : 'False'
+	} );
+	
+});
+
+			embeddedservice_bootstrap.init(
+				'00DVc000004Rf3B',
+				'Help_CRM_Messaging',
+				'https://ott-summer--stage.sandbox.my.site.com/ESWHelpCRMMessaging1769676970187',
+				{
+					scrt2URL: 'https://ott-summer--stage.sandbox.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://ott-summer--stage.sandbox.my.site.com/ESWHelpCRMMessaging1769676970187/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+
+</body>
+</html>
