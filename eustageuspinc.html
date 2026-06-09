@@ -70,22 +70,25 @@
 		browserPlatform
 	);
 	embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields( { 
-		'Browser_Name' : browserName,  	
-		'Browser_Language' : browserLanguage,  	
-		'Browser_Platform' : browserPlatform,
-		'Case_Subject': 'CRM test subject from Help - billing issue from MIAW',
-		'Language_Code' : 'fi',
-		'Territory_Code' : 'fi',
-		'Case_Classification' : 'caseClassification value',
-		'Case_ServiceType' : 'TV',
-		'Case_Type' : 'Technical Problem',
-		'Contact_ID' : '',
-		'Last_Article_Viewed' : 'https://www.peacocktv.com/help/article/how-do-i-get-peacock',
-		'Logged_In_Status' : 'false',
-		'Customer_Tracking_ID' : '234729348204982',
-		'Page_URL' : 'https://www.peacocktv.com/help/article/how-do-i-get-peacock',
-		'MarketingCloud_Visitor_ID' : '234j3453lk2343',
-		'Get_In_Touch' : 'False'
+					'Browser_Name'              : fetchBrowserName(),
+					'Browser_Language'          : navigator.language,
+					'Browser_Platform'          : navigator.platform,
+					'Case_Subject'              : 'Subject: Miaw Chat',
+					'Language_Code'             : languageCode,
+					'Territory_Code'            : territoryCode,
+					'Case_Classification'       : 'Billing Issue',
+					'Case_ServiceType'          : 'TV',
+					'Case_Type'                 : 'Technical Problem',
+					'Contact_ID'                : '',
+					'Last_Article_Viewed'       : 'https://www.nowtv.com/gb/help/article/sports-membership',
+					'Logged_In_Status'          : 'False',
+					'Customer_Tracking_ID'      : '234729348204982',
+					'Page_URL'                  : 'https://www.nowtv.com/gb/help/article/sports-membership',
+					'MarketingCloud_Visitor_ID' : '234j3453lk2343',
+					'Get_In_Touch'              : 'False',
+					'Case_Origin'               : 'Chat',
+					'User_Agent'                : navigator.userAgent,
+					'Help_Source'				: 'home-page'
 	} );
 	
 });
