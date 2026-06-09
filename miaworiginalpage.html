@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>EU Sandbox EnhancedChat Home - Article Pages </title>
+	<div>BOT Loads on Home Page, Article Page</div>
+	<div><b></b>Web Source: HomePage</b></div>
+	<div> Messaging-->Active- Inactive Handling-EndSession</div>
+	<style>
+		/* Hide Salesforce MIAW aria-live announcer regions — screen-reader only, not visually rendered */
+		[id^="embeddedMessagingLiveRegion"] {
+			position: absolute !important;
+			width: 1px !important;
+			height: 1px !important;
+			padding: 0 !important;
+			margin: -1px !important;
+			overflow: hidden !important;
+			clip: rect(0, 0, 0, 0) !important;
+			white-space: nowrap !important;
+			border: 0 !important;
+		}
+	</style>
+</head>
+<body>
+
+	<h1> <center>Refund Manger Test (V1)</center></h1> 
+  
+	
+	<center>
+<img src="https://www.fineartcanvas.com/cdn/shop/files/0189830.jpg?v=1722956067&width=1240">	</center>
+
+<center>
+	<select id="territorySelect" onchange="onTerritoryChange()" style="font-size:16px; padding:8px 16px; border-radius:6px; border:1px solid #ccc; margin-top:16px;">
+		<option value="" disabled selected>-- Select Territory --</option>
+		<option value="GB">GB - United Kingdom</option>
+		<option value="IE">IE - Ireland</option>
+		<option value="DE">DE - Germany</option>
+		<option value="IT">IT - Italy</option>
+	</select>
+</center>
+
+<script type='text/javascript'>
+	var territoryConfig = {
+		'GB': { languageCode: 'en_US', territoryCode: 'GB' },
+		'IE': { languageCode: 'en_US', territoryCode: 'IE' },
+		'DE': { languageCode: 'de',    territoryCode: 'DE' },
+		'IT': { languageCode: 'it',    territoryCode: 'IT' }
+	};
+
+	var chatInitialized = false;
+
+	function onTerritoryChange() {
+		var selected = document.getElementById('territorySelect').value;
+		if (!selected) return;
+
+		if (chatInitialized) {
+			sessionStorage.setItem('miaw_territory', selected);
+			location.reload();
+			return;
+		}
+
+		var config = territoryConfig[selected];
+		loadBootstrap(config.territoryCode, config.languageCode);
+	}
+
+	function loadBootstrap(territoryCode, languageCode) {
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = 'https://now-eu--stage.sandbox.my.site.com/ESWRefundManagerChannel1780997498267/assets/js/bootstrap.min.js';
+		script.onload = function() {
+			initEmbeddedMessaging(territoryCode, languageCode);
+		};
+		document.body.appendChild(script);
+	}
+
+	function fetchBrowserName() {
+		var browserInfo = navigator.userAgent;
+		if (browserInfo.includes('Opera') || browserInfo.includes('Opr')) return 'Opera';
+		if (browserInfo.includes('Edg'))     return 'Edge';
+		if (browserInfo.includes('Chrome'))  return 'Chrome';
+		if (browserInfo.includes('Safari'))  return 'Safari';
+		if (browserInfo.includes('Firefox')) return 'Firefox';
+		return 'unknown';
+	}
+
+	function initEmbeddedMessaging(territoryCode, languageCode) {
+		try {
+			embeddedservice_bootstrap.settings.language = languageCode;
+
+			window.addEventListener('onEmbeddedMessagingReady', function() {
+				embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+					'Browser_Name'              : fetchBrowserName(),
+					'Browser_Language'          : navigator.language,
+					'Browser_Platform'          : navigator.platform,
+					'Case_Subject'              : 'Subject: Miaw Chat',
+					'Language_Code'             : languageCode,
+					'Territory_Code'            : territoryCode,
+					'Case_Classification'       : 'Billing Issue',
+					'Case_ServiceType'          : 'TV',
+					'Case_Type'                 : 'Technical Problem',
+					'Contact_ID'                : '003Ad00000zmgiuIAA',
+					'Last_Article_Viewed'       : 'https://www.nowtv.com/gb/help/article/sports-membership',
+					'Logged_In_Status'          : 'True',
+					'Customer_Tracking_ID'      : '234729348204982',
+					'Page_URL'                  : 'https://www.nowtv.com/gb/help/article/sports-membership',
+					'MarketingCloud_Visitor_ID' : '234j3453lk2343',
+					'Get_In_Touch'              : 'False',
+					'Case_Origin'               : 'Chat',
+					'User_Agent'                : navigator.userAgent,
+					'Help_Source'				: 'refundManager'
+				});
+			});
+
+			embeddedservice_bootstrap.init(
+				'00DAd00000CmOsM',
+				'Refund_Manager_Channel',
+				'https://now-eu--stage.sandbox.my.site.com/ESWRefundManagerChannel1780997498267',
+				{
+					scrt2URL: 'https://now-eu--stage.sandbox.my.salesforce-scrt.com'
+				}
+			);
+			chatInitialized = true;
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	}
+
+	// Restore territory after reload — runs before bootstrap is loaded
+	(function() {
+		var savedTerritory = sessionStorage.getItem('miaw_territory');
+		if (savedTerritory) {
+			sessionStorage.removeItem('miaw_territory');
+			document.getElementById('territorySelect').value = savedTerritory;
+			var config = territoryConfig[savedTerritory];
+			loadBootstrap(config.territoryCode, config.languageCode);
+		}
+	})();
+
+</script>
+
+</body>
+</html>
