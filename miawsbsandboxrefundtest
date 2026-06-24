@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Refund Manager Bot MIAW MIAWSB NBCU SANDBOX (24TH JUNE) </title>
+</head>
+<body>
+
+	<h1> <center>Refund Manager Bot(MIAWS SANDBOX V1)</center></h1>
+<br>
+  <h3> 	Test Account details for Signed In Customer
+	  <br>
+	  Contact_ID: 003Ad00000zmgiuIAA
+  </br>
+	</h3>
+	<center>
+	<img src="https://www.salesforce.com/content/dam/sfdc-webinars/webinar-banner-foreground.jpg" alt="salesforce image" width="800" height="800">
+	</center>
+<script type='text/javascript'>
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+
+			window.addEventListener("onEmbeddedMessagingReady", () => {
+
+	console.log( "Inside Prechat API!!" );
+	const fetchBrowserName = () => {
+
+		let browserInfo = navigator.userAgent;
+		let browserName;
+		if (
+			browserInfo.includes('Opera') ||
+			browserInfo.includes('Opr')
+		) {
+		
+			browserName = 'Opera';
+			
+		} else if ( browserInfo.includes( 'Edg' ) ) {
+		
+			browserName = 'Edge';
+			
+		} else if (browserInfo.includes( 'Chrome' ) ) {
+		
+			browserName = 'Chrome';
+			
+		} else if ( browserInfo.includes( 'Safari' ) ) {
+		
+			browserName = 'Safari';
+			
+		} else if ( browserInfo.includes( 'Firefox' ) ) {
+		
+			browserName= 'Firefox';
+			
+		} else {
+		
+			browserName = 'unknown';
+			
+		}
+		return browserName;
+		
+	}
+
+	const browserName = fetchBrowserName();
+	console.log(
+		'Browser Name is',
+		browserName
+	);
+	const browserLanguage = navigator.language;
+	console.log(
+		'Browser Language is',
+		browserLanguage
+	);
+	const browserPlatform = navigator.platform;
+	console.log(
+		'Browser Platform is',
+		browserPlatform
+	);
+	embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields( {
+		'Browser_Name' : browserName,  	
+		'Browser_Language' : browserLanguage,  	
+		'Browser_Platform' : browserPlatform,
+		'Case_Subject': 'CRM test subject - billing issue',
+		'Language_Code' : 'en_US',
+		'Territory_Code' : 'GB',
+		'Case_Classification' : 'caseClassification value',
+		'Case_ServiceType' : 'TV',
+		'Case_Type' : 'Technical Problem',
+		'Contact_ID' : '003Ad00000zmgiuIAA',
+		'Last_Article_Viewed' : 'https://www.stable-int.gottmax.com/ng/help/article/what-subscription-options-are-available',
+		'Logged_In_Status' : 'false',
+		'Customer_Tracking_ID' : '234729348204982',
+		'Page_URL' : 'https://www.stable-int.gottmax.com/ng/help/article/what-subscription-options-are-available',
+		'MarketingCloud_Visitor_ID' : '234j3453lk2343',
+		'Help_Source' : 'refundManager'
+	} );
+	
+});
+
+			embeddedservice_bootstrap.init(
+				'00DWr00000CChf1',
+				'Help_CRM_Messaging_Channel',
+				'https://ott-nbcu--miawsb.sandbox.my.site.com/ESWHelpCRMMessagingCha1781561637387',
+				{
+					scrt2URL: 'https://ott-nbcu--miawsb.sandbox.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://ott-nbcu--miawsb.sandbox.my.site.com/ESWHelpCRMMessagingCha1781561637387/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+
+</body>
+</html>
