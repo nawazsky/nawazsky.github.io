@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refund Manager Bot MIAW MIAWSB NBCU SANDBOX (24TH JUNE) — User Verification POC</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #fff; --ink: #1b2733; --muted: #5c6b7a;
+    --line: #dde3e9; --accent: #0b5cab; --ok: #2e7d32; --warn: #b26a00; --err: #c62828;
+    --log-bg: #10161d; --log-ink: #c9d6e2;
+    --mono: "SFMono-Regular", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.55 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 24px 20px 90px; }
+  header { border-bottom: 2px solid var(--ink); padding-bottom: 12px; margin-bottom: 18px; }
+  header .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--accent); }
+  header h1 { margin: 4px 0 2px; font-size: 22px; }
+  header p { margin: 0; color: var(--muted); font-size: 13.5px; font-family: var(--mono); }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+    padding: 16px 20px; margin-bottom: 16px; }
+  section h2 { margin: 0 0 4px; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+  section h2 .step { font-family: var(--mono); font-size: 11px; color: var(--accent);
+    border: 1px solid var(--accent); border-radius: 4px; padding: 1px 6px; }
+  .hint { margin: 0 0 10px; color: var(--muted); font-size: 13px; }
+  label { display: block; font-size: 12px; font-weight: 600; margin: 10px 0 3px; color: var(--muted); }
+  input[type=text], textarea { width: 100%; border: 1px solid var(--line); border-radius: 6px;
+    padding: 8px 10px; font-family: var(--mono); font-size: 12.5px; background: #fbfcfd; color: var(--ink); }
+  textarea { resize: vertical; }
+  input:focus, textarea:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  button { border: 1px solid var(--accent); border-radius: 6px; padding: 8px 14px;
+    font-size: 13px; font-weight: 600; cursor: pointer; background: var(--accent); color: #fff; }
+  button.secondary { background: transparent; color: var(--accent); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  .badge { font-family: var(--mono); font-size: 11.5px; padding: 3px 8px; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--muted); background: #fbfcfd; }
+  .badge.ok { color: var(--ok); border-color: var(--ok); }
+  .badge.warn { color: var(--warn); border-color: var(--warn); }
+  .badge.err { color: var(--err); border-color: var(--err); }
+  #statusBar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  #log { background: var(--log-bg); color: var(--log-ink); border-radius: 8px;
+    font-family: var(--mono); font-size: 12px; line-height: 1.65; padding: 14px 16px;
+    min-height: 150px; max-height: 340px; overflow-y: auto; white-space: pre-wrap; word-break: break-all; }
+  #log .t { color: #5f7186; } #log .ok { color: #7ddc8f; }
+  #log .err { color: #ff8f8f; } #log .warn { color: #ffcf87; }
+  details summary { cursor: pointer; font-size: 13px; color: var(--accent); font-weight: 600; }
+  .danger-note { font-size: 12px; color: var(--err); margin-top: 6px; }
+  code { font-family: var(--mono); font-size: .92em; background: #eef1f4; padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NBCU · MIAWSB Sandbox · Refund Manager Bot (V3)</div>
+    <h1>User Verification POC Harness</h1>
+    <p>Signed-in test customer — Contact_ID: 003Wr00001FkdTvIAJ</p>
+  </header>
+
+  <div id="statusBar">
+    <span class="badge" id="bBootstrap">bootstrap: loading…</span>
+    <span class="badge" id="bReady">messaging: waiting</span>
+    <span class="badge" id="bPrechat">prechat: not set</span>
+    <span class="badge" id="bToken">identity token: none</span>
+  </div>
+
+  <section>
+    <h2><span class="step">1</span> Identity token (JWT)</h2>
+    <p class="hint">Generate locally with <code>node tools/generate-token.mjs --sub 003Wr00001FkdTvIAJ --iss poc-issuer --kid poc-key-1</code> and paste here, or use the in-browser signer below. The <code>kid</code> must match the key name and the <code>iss</code> the keyset issuer configured in the MIAWSB sandbox. Hidden prechat fields are set automatically when messaging is ready; the chat button renders only after Salesforce accepts a valid token.</p>
+    <label for="jwtInput">Signed JWT (RS256)</label>
+    <textarea id="jwtInput" rows="4" spellcheck="false" placeholder="eyJhbGciOiJSUzI1NiIs..."></textarea>
+    <div class="row">
+      <button id="btnSend" disabled>Send token to Salesforce</button>
+      <button id="btnClear" class="secondary" disabled>Clear session (logout)</button>
+      <button id="btnDecode" class="secondary">Decode token</button>
+    </div>
+
+    <details style="margin-top:14px;">
+      <summary>Optional: sign a test token in the browser (POC only)</summary>
+      <p class="danger-note">Sandbox test keys only — never paste a production private key, never commit private.pem.</p>
+      <label for="pemInput">Test private key (PKCS#8: "BEGIN PRIVATE KEY")</label>
+      <textarea id="pemInput" rows="4" spellcheck="false" placeholder="-----BEGIN PRIVATE KEY-----"></textarea>
+      <label for="subInput">sub (end-user identity)</label>
+      <input type="text" id="subInput" value="003Wr00001FkdTvIAJ" spellcheck="false">
+      <label for="issInput">iss (keyset issuer in Setup)</label>
+      <input type="text" id="issInput" value="poc-issuer" spellcheck="false">
+      <label for="kidInput">kid (key name in Setup)</label>
+      <input type="text" id="kidInput" value="poc-key-1" spellcheck="false">
+      <label for="ttlInput">ttl seconds</label>
+      <input type="text" id="ttlInput" value="3600" spellcheck="false">
+      <div class="row"><button id="btnSign" class="secondary">Sign token in browser</button></div>
+    </details>
+  </section>
+
+  <section>
+    <h2><span class="step">2</span> Event log</h2>
+    <div id="log" aria-live="polite"></div>
+  </section>
+</div>
+
+<script type="text/javascript">
+(() => {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const log = (msg, cls = "") => {
+    const t = new Date().toISOString().slice(11, 23);
+    const line = document.createElement("div");
+    line.innerHTML = `<span class="t">[${t}]</span> <span class="${cls}">${msg}</span>`;
+    $("log").appendChild(line);
+    $("log").scrollTop = $("log").scrollHeight;
+  };
+  const setBadge = (id, text, cls) => {
+    const el = $(id); el.textContent = text;
+    el.className = "badge" + (cls ? " " + cls : "");
+  };
+  const b64url = {
+    encode: (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)))
+      .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""),
+    encodeStr: (s) => b64url.encode(new TextEncoder().encode(s)),
+    decodeStr: (s) => {
+      s = s.replace(/-/g, "+").replace(/_/g, "/");
+      return decodeURIComponent(atob(s).split("").map(c =>
+        "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)).join(""));
+    }
+  };
+
+  // ---- Hidden prechat payload (your existing fields, unchanged) ----------
+  const fetchBrowserName = () => {
+    const ua = navigator.userAgent;
+    if (ua.includes("Opera") || ua.includes("Opr")) return "Opera";
+    if (ua.includes("Edg")) return "Edge";
+    if (ua.includes("Chrome")) return "Chrome";
+    if (ua.includes("Safari")) return "Safari";
+    if (ua.includes("Firefox")) return "Firefox";
+    return "unknown";
+  };
+  const buildPrechatFields = () => ({
+    "Browser_Name": fetchBrowserName(),
+    "Browser_Language": navigator.language,
+    "Browser_Platform": navigator.platform,
+    "Case_Subject": "CRM test subject - billing issue",
+    "Language_Code": "en_US",
+    "Territory_Code": "US",
+    "Case_Classification": "caseClassification value",
+    "Case_ServiceType": "TV",
+    "Case_Type": "Technical Problem",
+    "Contact_ID": "003Wr00001FkdTvIAJ",
+    "Last_Article_Viewed": "https://www.stable-int.gottmax.com/ng/help/article/what-subscription-options-are-available",
+    "Logged_In_Status": "true",
+    "Customer_Tracking_ID": "234729348204982",
+    "Page_URL": "https://www.stable-int.gottmax.com/ng/help/article/what-subscription-options-are-available",
+    "MarketingCloud_Visitor_ID": "234j3453lk2343",
+    "Help_Source": "refundManager"
+  });
+
+  // ---- Messaging listeners (registered before bootstrap init) ------------
+  window.addEventListener("onEmbeddedMessagingReady", () => {
+    log("onEmbeddedMessagingReady — API ready.", "ok");
+    setBadge("bReady", "messaging: READY", "ok");
+
+    // 1) Hidden prechat fields (same as your original page)
+    try {
+      const fields = buildPrechatFields();
+      embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields(fields);
+      log("setHiddenPrechatFields() sent " + Object.keys(fields).length +
+          " fields (browser=" + fields.Browser_Name + ", lang=" + fields.Browser_Language + ").", "ok");
+      setBadge("bPrechat", "prechat: SET", "ok");
+    } catch (err) {
+      log("setHiddenPrechatFields() failed: " + err.message, "err");
+      setBadge("bPrechat", "prechat: FAILED", "err");
+    }
+
+    // 2) Identity token — enable the send button; paste or sign a JWT, then send.
+    $("btnSend").disabled = false;
+    $("btnClear").disabled = false;
+    log("Paste/sign a JWT and click 'Send token to Salesforce'. Chat button renders after the token is accepted.");
+  });
+
+  window.addEventListener("onEmbeddedMessagingIdentityTokenExpired", () => {
+    log("onEmbeddedMessagingIdentityTokenExpired — send a fresh token within 30s or the session clears.", "warn");
+    setBadge("bToken", "identity token: EXPIRED", "warn");
+    // For automated refresh, sign a new JWT here and call setIdentityToken again.
+  });
+
+  // ---- Bootstrap init (your sandbox deployment) --------------------------
+  window.initEmbeddedMessaging = () => {
+    try {
+      setBadge("bBootstrap", "bootstrap: loaded", "ok");
+      log("bootstrap.min.js loaded.", "ok");
+      embeddedservice_bootstrap.settings.language = "en_US";
+      embeddedservice_bootstrap.init(
+        "00DWr00000CChf1",
+        "Help_CRM_Messaging_Channel",
+        "https://ott-nbcu--miawsb.sandbox.my.site.com/ESWHelpCRMMessagingCha1781561637387",
+        { scrt2URL: "https://ott-nbcu--miawsb.sandbox.my.salesforce-scrt.com" }
+      );
+      log("embeddedservice_bootstrap.init() called for Help_CRM_Messaging_Channel.");
+    } catch (err) {
+      log("Error loading Embedded Messaging: " + err.message, "err");
+      console.error("Error loading Embedded Messaging: ", err);
+    }
+  };
+
+  // ---- Token actions -----------------------------------------------------
+  $("btnSend").addEventListener("click", () => {
+    const jwt = $("jwtInput").value.trim();
+    if (!jwt) return log("No JWT pasted.", "err");
+    try {
+      embeddedservice_bootstrap.userVerificationAPI.setIdentityToken({
+        identityTokenType: "JWT",
+        identityToken: jwt
+      });
+      log("setIdentityToken() called — if valid, the chat button renders and the session is verified.", "ok");
+      setBadge("bToken", "identity token: SENT", "ok");
+    } catch (err) {
+      log("setIdentityToken() failed: " + err.message, "err");
+    }
+  });
+
+  $("btnClear").addEventListener("click", () => {
+    embeddedservice_bootstrap.userVerificationAPI.clearSession(true)
+      .then(() => { log("clearSession() succeeded — messaging data cleared across tabs.", "ok"); setBadge("bToken", "identity token: none"); })
+      .catch((e) => log("clearSession() failed: " + (e && e.message ? e.message : e), "err"))
+      .finally(() => log("Listen for onEmbeddedMessagingReady again before the next conversation."));
+  });
+
+  $("btnDecode").addEventListener("click", () => {
+    const jwt = $("jwtInput").value.trim();
+    const parts = jwt.split(".");
+    if (parts.length !== 3) return log("Not a JWT (expected 3 dot-separated parts).", "err");
+    try {
+      const header = JSON.parse(b64url.decodeStr(parts[0]));
+      const payload = JSON.parse(b64url.decodeStr(parts[1]));
+      log("header : " + JSON.stringify(header));
+      log("payload: " + JSON.stringify(payload));
+      if (payload.exp) {
+        const left = payload.exp - Math.floor(Date.now() / 1000);
+        log(left > 0 ? `expires in ${left}s` : `EXPIRED ${-left}s ago`, left > 0 ? "ok" : "err");
+      }
+      if (!header.kid) log("Warning: no kid in header — Salesforce needs it to pick your key.", "warn");
+    } catch { log("Could not decode token.", "err"); }
+  });
+
+  // ---- In-browser test signer (WebCrypto, POC only) ----------------------
+  $("btnSign").addEventListener("click", async () => {
+    try {
+      const pem = $("pemInput").value.trim();
+      if (!pem.includes("BEGIN PRIVATE KEY"))
+        return log("Expected a PKCS#8 PEM (BEGIN PRIVATE KEY). Convert with: openssl pkcs8 -topk8 -nocrypt -in private.pem", "err");
+      const der = Uint8Array.from(atob(pem.replace(/-----[^-]+-----/g, "").replace(/\s+/g, "")),
+        (c) => c.charCodeAt(0));
+      const key = await crypto.subtle.importKey("pkcs8", der,
+        { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]);
+      const now = Math.floor(Date.now() / 1000);
+      const header = { alg: "RS256", typ: "JWT", kid: $("kidInput").value.trim() };
+      const payload = {
+        iss: $("issInput").value.trim(),
+        sub: $("subInput").value.trim(),
+        iat: now,
+        exp: now + (parseInt($("ttlInput").value, 10) || 3600)
+      };
+      const input = b64url.encodeStr(JSON.stringify(header)) + "." + b64url.encodeStr(JSON.stringify(payload));
+      const sig = await crypto.subtle.sign("RSASSA-PKCS1-v1_5", key, new TextEncoder().encode(input));
+      $("jwtInput").value = input + "." + b64url.encode(sig);
+      log("Signed test JWT in-browser for sub=" + payload.sub, "ok");
+    } catch (err) {
+      log("Signing failed: " + err.message, "err");
+    }
+  });
+
+  log("Page loaded. Waiting for bootstrap.min.js …");
+})();
+</script>
+<script type="text/javascript"
+  src="https://ott-nbcu--miawsb.sandbox.my.site.com/ESWHelpCRMMessagingCha1781561637387/assets/js/bootstrap.min.js"
+  onload="initEmbeddedMessaging()"></script>
+</body>
+</html>
