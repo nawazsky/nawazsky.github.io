@@ -29,35 +29,15 @@
 <img src="https://www.fineartcanvas.com/cdn/shop/files/0189830.jpg?v=1722956067&width=1240">	</center>
 
 <script type='text/javascript'>
-	var territoryConfig = {
-		'GB': { languageCode: 'en_US', territoryCode: 'GB' },
-		'IE': { languageCode: 'en_US', territoryCode: 'IE' },
-		'DE': { languageCode: 'de',    territoryCode: 'DE' },
-		'IT': { languageCode: 'it',    territoryCode: 'IT' }
-	};
-
 	var chatInitialized = false;
 
-	function onTerritoryChange() {
-		var selected = document.getElementById('territorySelect').value;
-		if (!selected) return;
-
-		if (chatInitialized) {
-			sessionStorage.setItem('miaw_territory', selected);
-			location.reload();
-			return;
-		}
-
-		var config = territoryConfig[selected];
-		loadBootstrap(config.territoryCode, config.languageCode);
-	}
 
 	function loadBootstrap(territoryCode, languageCode) {
 		var script = document.createElement('script');
 		script.type = 'text/javascript';
 		script.src = 'text/javascript' src='https://ott-dach--training.sandbox.my.site.com/ESWHelpCRMMessagingCha1778141106563/assets/js/bootstrap.min.js';
 		script.onload = function() {
-			initEmbeddedMessaging(territoryCode, languageCode);
+			initEmbeddedMessaging('DE', 'de');
 		};
 		document.body.appendChild(script);
 	}
